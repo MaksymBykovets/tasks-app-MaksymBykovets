@@ -33,24 +33,24 @@ jobs:
         with:
           name: ${{matrix.service}}-${{matrix.python-version}}-bandit-report
           path: ${{matrix.service}}-${{matrix.python-version}}-bandit-report.html
-  deploy: 
+
+  deploy:
     needs: run_tests
     runs-on: ubuntu-latest
-    environment: 
+    environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     permissions:
-      pages: write # default for Github Workflow tokeen is none so we cannot write to github pahes without it 
+      pages: write # default for the workflow token is none, so it can't write to Pages without this
       id-token: write
-    steps: 
-      - uses: actions/default-artifact@v7
-        with: 
+    steps:
+      - uses: actions/download-artifact@v7
+        with:
           name: tasks-api-3.12-bandit-report
-          path: _site/index.html
-        - uses: actions/upload-pages-artifact@v5
-          with: 
-            path: _site
-            retention-days: 2
-        - name: Deploy to Github Pages 
-          id: deployment
-          uses: actions/deploy-pages@v4
+          path: _site
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+          retention_days: 2
+      - id: deployment
+        uses: actions/deploy-pages@v4
