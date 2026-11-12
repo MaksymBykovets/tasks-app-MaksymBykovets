@@ -15,6 +15,6 @@ updates:
         patterns: ["*"]
   - package-ecosystem: "pip"
     directories: ["/services/tasks-api", "/services/title-normalizer"]
-    schadule: 
+    schedule: 
       interval: "weekly"
     open-pull-requests-limit: 3
